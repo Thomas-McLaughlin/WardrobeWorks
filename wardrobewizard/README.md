@@ -1,5 +1,3 @@
-Tom McLaughlin
-
 The purpose of this program is to improve use of the "Grailed.com" marketplace for sellers who want an easier workflow, to cut down on repetitive actions, and gain greater insight into their sales data.
 
 In Grailed's defense, they regularly introduce new features to help such as a 'smart pricing' option that allows you to bump automatically when possible until the item reaches a price floor. 
