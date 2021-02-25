@@ -9,29 +9,6 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 import os
 
-"""
-@TODO:
-1) Finish the post Item code so that Items can be posted - each part of the item settings needs to work
-
-2) Build out non-extension functionality
-    - Build out functions with passed in strings and lists so that the master yaml can be used to post items at scale
-
-3) Write logging to keep track of progress and item post history/urls - this also can be made into a useful format to 
-show the user their sales history and metrics
-    
-4) Future functionality
-    Users
-    - Manual add page url to url list, so that if the user manually posts an item it can be tracked by the system still
-    - Interface for creating an item listing natively in the program
-    - Build in read of Item URLs to show the post history and some basic Wardrobe statistics
-    
-    Maintainability:
-    - Build in config to read in the xpaths of necessary DOM lookups so non technical people can service the program
-
-5) Improve Readme, usage, and documentation
-    - Create user documentation with screenshots so that people can easily learn how to use the system
-"""
-
 # Declare global driver for use in functions, this should allow us to login only once
 driver = webdriver.Chrome()
 driver.maximize_window()
