@@ -1,13 +1,17 @@
 """
 Tom McLaughlin
+This file holds the logic for taking action on grailed.com:
+- Posting Items
+- Dropping Prices
+-
 """
 from selenium.common.exceptions import NoSuchElementException
+from selenium import webdriver
 import time
 import traceback
-import tkinter as tk
-from selenium import webdriver
 from selenium.webdriver import ActionChains
 import os
+import tkinter.messagebox as mb
 
 # Declare global driver for use in functions, this should allow us to login only once
 driver = webdriver.Chrome()
@@ -15,7 +19,8 @@ driver.maximize_window()
 
 
 def drop_all_prices():
-    """THIS METHOD WILL DROP ALL OF A USER'S ITEM'S PRICES
+    """
+    THIS METHOD WILL DROP ALL OF A USER'S ITEM'S PRICES
     """
     try:
         # Initialize
@@ -58,7 +63,7 @@ def bump_all_items():
         # GET THE MAX NUMBER OF ITEMS ON A PAGE, THEN GO THROUGH PAGES UNTIL NO MORE ELEMENTS ARE FOUND
         # Needs to be fixed so the header bars are closed, otherwise scroll to the bottom of the page
 
-        for i in range(1,10):
+        for i in range(1, 10):
             time.sleep(2)
             item = driver.find_element_by_xpath(
                 "//*[@id=\"wardrobe\"]/div/div[3]/div/div[2]/div[2]/div/div[{}]/div[2]/button[2]".format(i))
@@ -115,7 +120,7 @@ def post_item():
     """
 
     ##CURRENTLY WORKING HERE, IT WILL BREAK AND NOT WORK IF YOU ATTEMPT TO POST RIGHT NOW
-    driver.close() # Close Driver to prevent memory leak for test
+    driver.close()  # Close Driver to prevent memory leak for test
 
     FOLDER_PATH = r'../Products/'
     item_folders = os.listdir(FOLDER_PATH)
@@ -137,83 +142,84 @@ def post_item():
     item_pics = []
 
     # Post the Item
-    exit() # Close the program at the end of my test
+    exit()  # Close the program at the end of my test
 
-
-# RUN THIS - DEBUG IT - AND WRAP IT IN TRY EXCEPT STATEMENTS
-#   Set dummy title
+    # RUN THIS - DEBUG IT - AND WRAP IT IN TRY EXCEPT STATEMENTS
+    #   Set dummy title
     driver.get('https://www.grailed.com/sell')
     time.sleep(3)
     search_item = driver.find_element_by_id('search-by-item-name')
     search_item.send_keys(item_title)
 
-#   This allows for you to create your own listing from scratch, using the search item name you created above
+    #   This allows for you to create your own listing from scratch, using the search item name you created above
     time.sleep(3)
     start_from_scratch = driver.find_element_by_xpath("//*[contains(text(), 'Start from scratch')]")
     start_from_scratch.click()
 
-#   This clicks the categoy box, which would trigger the dropdowns.
+    #   This clicks the categoy box, which would trigger the dropdowns.
     time.sleep(6)
     category = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
     category.click()
 
-#   Finding the footwear button
+    #   Finding the footwear button
     time.sleep(2)
-    footwear = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
+    footwear = driver.find_element_by_xpath(
+        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
     footwear.click()
 
-#   Finding the lowtop shoes button
+    #   Finding the lowtop shoes button
     time.sleep(2)
-    lowtop_shoes = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
+    lowtop_shoes = driver.find_element_by_xpath(
+        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
     lowtop_shoes.click()
 
-#   Configured the designer to say not sure because of all the options it offers. Can be easily changed
+    #   Configured the designer to say not sure because of all the options it offers. Can be easily changed
     time.sleep(2)
     designer = driver.find_element_by_id('designer-autocomplete')
     designer.send_keys('Not sure')
 
-#   Clicks the auto complete for the text typed above. This is iffy, as sometimes a random unrelated name comes up even
-#   when you click not sure.
+    #   Clicks the auto complete for the text typed above. This is iffy, as sometimes a random unrelated name comes up even
+    #   when you click not sure.
     time.sleep(6)
     not_sure = driver.find_element_by_class_name('autocomplete')
     not_sure.click()
 
-#   Finds the size button
+    #   Finds the size button
     size = driver.find_element_by_name('size')
     size.click()
 
-#   Adds the size. To change, just replace the 9 with whatever number you'd like.
+    #   Adds the size. To change, just replace the 9 with whatever number you'd like.
     time.sleep(2)
     the_size = driver.find_element_by_xpath("//option[@value='9']")
     the_size.click()
 
-#   Chooses the color. Elected N/A.
+    #   Chooses the color. Elected N/A.
     time.sleep(2)
     color = driver.find_element_by_id('color-autocomplete')
     color.send_keys('N/A')
     time.sleep(2)
 
-#   This is to click off the color, so your program can continue
+    #   This is to click off the color, so your program can continue
     clickoff = driver.find_element_by_id('sellform')
     clickoff.click()
 
-#   Clicking condition new
+    #   Clicking condition new
     time.sleep(4)
     the_condition = driver.find_element_by_xpath("//option[@value='is_new']")
     the_condition.click()
 
-#   Sending description from text file in description folder
+    #   Sending description from text file in description folder
     time.sleep(2)
     description = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[5]/textarea')
     description.send_keys(item_desc)
 
-#   Sending price from text file in price folder
+    #   Sending price from text file in price folder
     time.sleep(2)
     input_price = driver.find_element_by_name('price')
     input_price.send_keys(item_price)
     time.sleep(2)
 
-#   Turning the smart pricing off
+    #   Turning the smart pricing off
     driver.find_elements_by_class_name('--slider')[1].click()
 
     # Photo upload block
@@ -229,86 +235,25 @@ def log_in():
     """
     This is responsible for instantiating the web driver, as well as getting
     the user logged in and on the proper page
-    
-    Change this so that instead of a command line interface it uses a tkinter continue box, itll be more intuitive that way and be distributable
     """
     # Begin login block
     try:
         driver.get(url="https://www.grailed.com/sell")  # Get the web page
-        # Wait for user input to continue allowing fort logging in...
-        cont = input("Please Log in then enter 'y' to continue: ")
-        while cont != 'y':
-            time.sleep(0.5)
-            cont = input(": ")
+        # Wait for user to log in
+        cont = mb.askyesno("Login Popup", 'Please log in and then press "yes" to continue')
+        if not cont:
+            return driver
 
     except:
         print("Launching driver.get('https://www.grailed.com/')")
+
     return driver
 
 
 def log_off():
+    """
+    This is responsible for shutting down the program
+    """
     print("Exiting...")
     driver.close()
     exit(0)
-
-
-def main():
-    """
-    This is the driver of wardrobewizard, from here all the commands are invoked as functions that run alongside
-    the created Tkinter window. When the User logs in, the webdriver opens the grailed site, where the user manually
-    logs in, bypasses captcha, and enters 'y' into the terminal. At that point the commands below can be executed
-    by clicking their button in the Tkinter window.
-    """
-
-    # Use globally declared driver variable to carry out actions on the users behalf
-    # Create the GUI that will serve for the interaction between the user and the program
-    root = tk.Tk()
-    root.winfo_toplevel().title("WardrobeWizard V0.1")
-
-    # Create and stack buttons for login functionality of the application
-    button = tk.Button(root, text="Log In", command=log_in)
-    button.place(relx = 0.5,
-                 rely = 0.10,
-                 anchor = 'center')
-
-    # Create and stack buttons for functionality of the application
-    button = tk.Button(root, text="Bump All Items", command=bump_all_items)
-    button.place(relx = 0.5,
-                 rely = 0.25,
-                 anchor = 'center')
-
-    # Create and stack buttons for functionality of the application
-    button = tk.Button(root, text="Drop All Prices", command=drop_all_prices)
-    button.place(relx = 0.5,
-                 rely = 0.40,
-                 anchor = 'center')
-
-    # Create and stack buttons for functionality of the application
-    button = tk.Button(root, text="Clear Wardrobe", command=clear_wardrobe)
-    button.place(relx = 0.5,
-                 rely = 0.55,
-                 anchor = 'center')
-
-    # Create and stack buttons for functionality of the application
-    button = tk.Button(root, text="Post Items", command=post_item)
-    button.place(relx = 0.5,
-                 rely = 0.70,
-                 anchor = 'center')
-
-    # Create and stack buttons for functionality of the application
-    button = tk.Button(root, text="Log Off", command=log_off)
-    button.place(relx = 0.5,
-                 rely = 0.85,
-                 anchor = 'center')
-
-    root.mainloop()
-
-
-# Starts the program and cleans up when it is done.
-main()
-
-# Make sure everything closed successfully
-try:
-    driver.close()
-except:
-    print("Driver was previously closed\n")
