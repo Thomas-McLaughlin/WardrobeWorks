@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e6fc938-36d2-4b82-a9d6-b26729690c86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/scripts/analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/createDB.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/readDB.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/wardrobeWizard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/wardrobewizard.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/core.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/createDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/createDB.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
