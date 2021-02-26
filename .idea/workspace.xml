@@ -4,6 +4,7 @@
     <list default="true" id="9e6fc938-36d2-4b82-a9d6-b26729690c86" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/createDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/createDB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/readDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/readDB.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +38,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.readDB">
+  <component name="RunManager" selected="Python.createDB">
     <configuration name="WardrobeWizard2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="WardrobeWizard2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,7 +72,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/createDB.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/db_setup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -130,8 +131,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.readDB" />
         <item itemvalue="Python.createDB" />
+        <item itemvalue="Python.readDB" />
         <item itemvalue="Python.wardrobeWizard" />
       </list>
     </recent_temporary>
@@ -154,7 +155,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
