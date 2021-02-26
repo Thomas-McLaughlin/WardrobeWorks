@@ -7,7 +7,17 @@ This file is for first setup, so that the relevant databases can be created.
 """
 
 '''
-Create item_data db
+Create item_data db with following fields:
+Post Date               [DATE]
+Sold Date               [DATE]
+post_price              [INTEGER]
+current_price           [INTEGER]
+description             [TEXT]
+Number of Likes         [INT]
+Number of Comments      [INT]
+URL to Listing          [STRING/URI]
+num_images              [INTEGER]
+Refunded (True/False)   [BOOLEAN]
 '''
 # Create the item_data.db
 conn = sqlite3.connect('../data/item_data.db')
@@ -57,7 +67,17 @@ conn.close()
 print("The item-data database is prepared for use")
 
 '''
-Create Sales_data Db
+Create Sales_data Db with following fields:
+Post Date               [DATE]
+Sold Date               [DATE]
+post_price              [INTEGER]
+current_price           [INTEGER]
+description             [TEXT]
+Number of Likes         [INT]
+Number of Comments      [INT]
+URL to Listing          [STRING/URI]
+num_images              [INTEGER]
+Refunded (True/False)   [BOOLEAN]
 '''
 # Create the sales_data.db
 conn = sqlite3.connect('../data/sales_data.db')
