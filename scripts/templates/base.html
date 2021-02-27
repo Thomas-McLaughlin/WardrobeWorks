@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+        <title>Wardrobe Wizard V0.1</title>
+    </head>
+    <body>
+        <div class="btn-group" style="position: absolute; top: 15px; left: 20px;">
+            <a href = "{{ url_for('index') }}" class='btn btn-primary'>Home</a>
+            <a href = "{{ url_for('post') }}" class='btn btn-primary'>Post</a>
+            <a href = "{{ url_for('sales') }}" class='btn btn-primary'>Sales</a>
+        </div>
+        <div style="position: relative; margin-top:65px; margin-left:25px;">{% block content %}{% endblock %}</div>
+    </body>
+</html>
