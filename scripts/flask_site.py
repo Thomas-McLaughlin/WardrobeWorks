@@ -23,7 +23,7 @@ def my_form_post():
         designer = request.form['designer']
         size = request.form['size']
         condition = request.form['condition']
-        print(itemName, itemprice, costOfGoods, description, designer, size, condition)
+        print("{}\n{}\n{}\n{}\n{}\n{}\n{}".format(itemName, itemprice, costOfGoods, description, designer, size, condition))
         return redirect(url_for('post'))
     else:
         redirect(url_for('index'))
