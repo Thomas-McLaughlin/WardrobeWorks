@@ -13,13 +13,22 @@ Requirements:</br>
     You need python 2.7 installed to run the program</br>
     You need Google Chrome installed to run the program</br>
     
-TO USE:
+TO USE:</br>
     Run wardrobewizard.py with the command 'python2 wardrobewizard.py'</br>
     Go to the opened Tkinter window</br>
     Click Log in</br>
     Log in to your Grailed Account and Pass Captcha</br>
-    Enter the 'y' key then Enter into the terminal</br>
+    Click the 'yes' key from the popup window</br>
     Click the Wardrobe operations that you want to carry out that session</br>
     The wizard carries out the rest!</br>
 
+Currently:</br>
+    Work is being done on the program so that all of the UI is handled through a browser. If you have correctly 
+    downloaded the github repo and dependencies you should be able to look at the current state of the web UI by running
+    the commands:</br>
+    export FLASK_APP=flask_site.py</br>
+    export FLASK_ENV=development</br>
+    flask run</br>
+    Then open a browser window to http://127.0.0.1:5000/ to see the UI and interact </br>
+    
 This program requires the user to supply all product images, descriptions, pricing, and configurations for maintenance tasks.
