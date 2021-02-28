@@ -1,6 +1,7 @@
 import tkinter as tk
 import scripts.core as core
 
+## DEPRECATED, SHOULD ONLY BE USED FOR TESTING THE core.py functionality
 
 def wardrobeWizard():
     """
