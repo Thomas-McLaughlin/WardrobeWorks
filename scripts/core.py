@@ -3,7 +3,6 @@ Tom McLaughlin
 This file holds the logic for taking action on grailed.com:
 - Posting Items
 - Dropping Prices
--
 """
 from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
@@ -13,17 +12,14 @@ from selenium.webdriver import ActionChains
 import os
 import tkinter.messagebox as mb
 
-# Declare global driver for use in functions, this should allow us to login only once
+
 driver = webdriver.Chrome()
 driver.maximize_window()
 
 
 def drop_all_prices():
-    """
-    THIS METHOD WILL DROP ALL OF A USER'S ITEM'S PRICES
-    """
+    """Drop all of a user's items prices"""
     try:
-        # Initialize
         try:
             driver.get("https://www.grailed.com/users/myitems")
             time.sleep(2)
@@ -47,9 +43,12 @@ def drop_all_prices():
 
 
 def bump_all_items():
-    """THIS METHOD WILL BUMP ALL OF A USER'S ITEMS THAT CAN BE BUMPED
-        - Currently only works with 6 items, needs to scroll down on the DOM to access the buttons that are lower
-        - should probably close the bump notices after they come up
+    """Bump all of a user's items that can be bumped
+
+    Limitations:
+        - Currently only works with 6 items, needs to scroll down
+          on the DOM to access the buttons that are lower
+        - Doesn't close the bump notices after they come up
     """
     try:
         # Initialize
@@ -60,8 +59,9 @@ def bump_all_items():
             traceback.print_exc()
             print("Initialization failed...")
 
-        # GET THE MAX NUMBER OF ITEMS ON A PAGE, THEN GO THROUGH PAGES UNTIL NO MORE ELEMENTS ARE FOUND
-        # Needs to be fixed so the header bars are closed, otherwise scroll to the bottom of the page
+        # Fetch the number of items on the page and loop through all of them.
+        # Fixme: If the header bars are not closed, scroll to
+        # the bottom of the page
 
         for i in range(1, 10):
             time.sleep(2)
@@ -76,9 +76,7 @@ def bump_all_items():
 
 
 def clear_wardrobe():
-    """
-    This method will clear the user's wardrobe so that they have no items listed
-    """
+    """Clears the user's wardrobe so that they have no items listed"""
     try:
         # Initialize
         try:
@@ -88,7 +86,7 @@ def clear_wardrobe():
             traceback.print_exc()
             print("Initialization failed...")
 
-        # GET THE MAX NUMBER OF ITEMS ON A PAGE, THEN GO THROUGH PAGES UNTIL NO MORE ELEMENTS ARE FOUND
+        # Fetch the number of items on the page and loop through all of them.
         while True:
             driver.get("https://www.grailed.com/users/myitems")
             time.sleep(2)
@@ -115,12 +113,11 @@ def clear_wardrobe():
 
 
 def post_item():
-    """
-    This method posts the new items to grailed.com
-    """
+    """Post new items to grailed.com"""
 
-    ##CURRENTLY WORKING HERE, IT WILL BREAK AND NOT WORK IF YOU ATTEMPT TO POST RIGHT NOW
-    driver.close()  # Close Driver to prevent memory leak for test
+    # Fixme: This function is currently not working.
+    # Close driver to prevent memory leak for test
+    driver.close()  
 
     FOLDER_PATH = r'../Products/'
     item_folders = os.listdir(FOLDER_PATH)
@@ -134,7 +131,6 @@ def post_item():
 
     # For each item folder:-
 
-    # Open the Yaml and get the information
     # Read in the information from config files
     item_title = ''
     item_desc = ''
@@ -145,35 +141,38 @@ def post_item():
     exit()  # Close the program at the end of my test
 
     # RUN THIS - DEBUG IT - AND WRAP IT IN TRY EXCEPT STATEMENTS
-    #   Set dummy title
+    # Set dummy title
     driver.get('https://www.grailed.com/sell')
     time.sleep(3)
     search_item = driver.find_element_by_id('search-by-item-name')
     search_item.send_keys(item_title)
 
-    #   This allows for you to create your own listing from scratch, using the search item name you created above
+    # This allows for you to create your own listing from scratch, 
+    # using the search item name you created above
     time.sleep(3)
-    start_from_scratch = driver.find_element_by_xpath("//*[contains(text(), 'Start from scratch')]")
+    start_from_scratch = driver.find_element_by_xpath(
+        "//*[contains(text(), 'Start from scratch')]")
     start_from_scratch.click()
 
-    #   This clicks the categoy box, which would trigger the dropdowns.
+    # This clicks the categoy box, which would trigger the dropdowns.
     time.sleep(6)
-    category = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
+    category = driver.find_element_by_xpath(
+        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
     category.click()
 
-    #   Finding the footwear button
+    # Finding the footwear button
     time.sleep(2)
     footwear = driver.find_element_by_xpath(
         '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
     footwear.click()
 
-    #   Finding the lowtop shoes button
+    # Finding the lowtop shoes button
     time.sleep(2)
     lowtop_shoes = driver.find_element_by_xpath(
         '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
     lowtop_shoes.click()
 
-    #   Configured the designer to say not sure because of all the options it offers. Can be easily changed
+    # Configured the designer to say not sure because of all the options it offers. Can be easily changed
     time.sleep(2)
     designer = driver.find_element_by_id('designer-autocomplete')
     designer.send_keys('Not sure')
@@ -232,15 +231,11 @@ def post_item():
 
 
 def log_in():
-    """
-    This is responsible for instantiating the web driver, as well as getting
-    the user logged in and on the proper page
-    """
-    # Begin login block
+    """Instantiate the web driver, log the user and switch to the page"""
     try:
-        driver.get(url="https://www.grailed.com/sell")  # Get the web page
-        # Wait for user to log in
-        cont = mb.askyesno("Login Popup", 'Please log in and then press "yes" to continue')
+        driver.get(url="https://www.grailed.com/sell")
+        cont = mb.askyesno(
+            "Login Popup", 'Please log in and then press "yes" to continue')
         if not cont:
             return driver
 
@@ -251,9 +246,7 @@ def log_in():
 
 
 def log_off():
-    """
-    This is responsible for shutting down the program
-    """
+    """Close down the driver"""
     print("Exiting...")
     driver.close()
     exit(0)
