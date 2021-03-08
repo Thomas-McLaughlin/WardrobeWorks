@@ -11,9 +11,14 @@ import traceback
 from selenium.webdriver import ActionChains
 import os
 import tkinter.messagebox as mb
+from selenium.webdriver.chrome.options import Options
 
-
-driver = webdriver.Chrome()
+option = Options()
+option.add_argument("--disable-notifications")
+option.add_argument("start-maximized")
+option.add_argument("--disable-extensions")
+option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 1 })
+driver = webdriver.Chrome(options=option)
 driver.maximize_window()
 
 
@@ -32,6 +37,8 @@ def drop_all_prices():
             time.sleep(2)
             item = driver.find_element_by_xpath(
                 "//*[@id=\"wardrobe\"]/div/div[3]/div/div/div/div[{}]/a/div[1]/img".format(i))
+            actions = ActionChains(driver)
+            actions.move_to_element(item).perform()
             item.click()
             time.sleep(3)
 
@@ -67,6 +74,8 @@ def bump_all_items():
             time.sleep(2)
             item = driver.find_element_by_xpath(
                 "//*[@id=\"wardrobe\"]/div/div[3]/div/div[2]/div[2]/div/div[{}]/div[2]/button[2]".format(i))
+            actions = ActionChains(driver)
+            actions.move_to_element(item).perform()
             item.click()
             print("Item {} bumped".format(i))
 
@@ -90,22 +99,29 @@ def clear_wardrobe():
         while True:
             driver.get("https://www.grailed.com/users/myitems")
             time.sleep(2)
-            item = driver.find_element_by_xpath("//*[@id=\"wardrobe\"]/div/div[3]/div/div/div/div[1]/a/div[1]/img")
-            # //*[@id="wardrobe"]/div/div[3]/div/div[2]/div[2]/div/div[1]/div[1]/a/div[2]/img
+            item = driver.find_element_by_xpath("//*[@id=\"wardrobe\"]/div/div[3]/div/div[2]/div[2]/div/div[1]/div[1]/a/div[2]/img")
             item.click()
             time.sleep(3)
 
+            driver.switch_to.window(driver.window_handles[1])
+
+            element = driver.find_element_by_id("user_delete")
             actions = ActionChains(driver)
-            element = driver.find_element_by_xpath("/html/body/div[7]/div/div[2]/div[2]/div[4]/h3")
             actions.move_to_element(element).perform()
-            time.sleep(0.2)
 
-            button = driver.find_element_by_link_text("DELETE THIS POSTING")
+            time.sleep(0.5)
+            element.click()
+            time.sleep(1)
 
-            if button.text == "DELETE THIS POSTING":
-                button.click()
-                driver.switch_to_alert().accept()
-                time.sleep(1)
+            reason = driver.find_element_by_xpath("//select[@id=\"reason\"]/option[text()='Other'")
+            reason.click()
+            time.sleep(.2)
+
+            reasonBox = driver.find_element_by_xpath("//*[@id=\"notes\"]")
+            reasonBox.send_keys("Sold elsewhere")
+            time.sleep(0.1)
+
+            driver.find_element_by_xpath("/html/body/div[18]/div/div/div/div[2]/div/form/button").click()
 
     except NoSuchElementException:
         print("Something went wrong in clearWardrobe()")
@@ -234,6 +250,8 @@ def log_in():
     """Instantiate the web driver, log the user and switch to the page"""
     try:
         driver.get(url="https://www.grailed.com/sell")
+        time.sleep(1)
+        driver.find_element_by_xpath("//*[@id=\"app\"]/div[8]/a[2]").click()
         cont = mb.askyesno(
             "Login Popup", 'Please log in and then press "yes" to continue')
         if not cont:
