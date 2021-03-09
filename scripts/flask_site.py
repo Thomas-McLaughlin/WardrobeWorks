@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Markup
 import sqlite3
 import sys
+import os
 from sqlite3 import OperationalError
 from werkzeug.exceptions import BadRequest
+
+sys.path.insert(0, os.getcwd())
+import ItemTable as it
 
 app = Flask(__name__)
 
@@ -10,7 +14,21 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Renders the index page template."""
-    return render_template('index.html')
+    try:
+        conn = sqlite3.connect('../data/item_data.db')
+        c = conn.cursor()
+    except OperationalError:
+        print(sys.exc_info()[1])
+    c.execute('SELECT * FROM items')
+    data = c.fetchall()
+    conn.close()
+    items = []
+    for item in data:
+        items.append(it.Item(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9],
+                             item[10], item[11], item[12], item[13], item[14], item[15]))
+    # Populate the table and return as html
+    table = it.ItemTable(items, classes=['table'])
+    return render_template('manage.html', table=Markup(table.__html__()))
 
 
 @app.route('/post')
@@ -33,27 +51,51 @@ def my_form_post():
     """
     Form for capturing and writing new items to the user's database
     """
+    '''
+    Item fields:
+    x item_name               [TEXT]            : The name of the item
+    x post_date               [DATE]            : The date the item was posted
+    x sold_date               [DATE]            : The date the item was sold
+    x post_price              [INTEGER]         : The price the item was posted with
+    x current_price           [INTEGER]         : The current price of the item, if listing is active
+    x cost_of_goods           [INTEGER]         : Optional, what the user paid for the item (used for profit calc)
+    x sold_price              [INTEGER]         : The price that the item sold for
+    x description             [TEXT]            : The description the item was posted with
+    x designer                [TEXT]            : The designer of the item
+    x category                [INTEGER]         : The category the item was posted in
+    x size                    [INTEGER]         : The size of the item
+    x condition               [TEXT]            : The condition of the item
+    x num_bumps               [INTEGER]         : The number of times the item has been bumped
+    x num_likes               [INTEGER]         : The number of times the item was liked
+    x num_comments            [INTEGER]         : The number of comments on the item
+    x num_images              [INTEGER]         : The number of images used in the listing
+    x URL                     [STRING/URI]      : The URL to the listing
+    x Refunded (True/False)   [INTEGER]         : Was a refund requested on the item?
+    x rating                  [INTEGER]         : What did the customer rate the transaction?
+    x sale_to_delivery        [INTEGER]         : How long did it take for the customer to get the item after sale?
+    '''
+
     if request.method == 'POST':
-
+        # Gather data from form
         try:
-            itemName = request.form['itemName']
+            item_name = request.form['itemName']
         except BadRequest:
-            itemName = '-'
+            item_name = '-'
 
         try:
-            itemPrice = request.form['itemPrice']
+            post_price = request.form['itemPrice']
         except BadRequest:
-            itemPrice = 0
+            post_price = 0
 
         try:
-            current_price = itemPrice
+            current_price = post_price
         except BadRequest:
             current_price = 0
 
         try:
-            costOfGoods = request.form['costOfGoods']
+            cost_of_goods = request.form['costOfGoods']
         except BadRequest:
-            costOfGoods = 0
+            cost_of_goods = 0
 
         try:
             description = request.form['description']
@@ -75,10 +117,17 @@ def my_form_post():
         except BadRequest:
             condition = 0
 
-        post_date = '-'
-        sell_date = '-'
+        try:
+            category = request.form['category']
+        except BadRequest:
+            category = 'None'
 
+        # Set placeholders for values under manage view's responsibility
+        post_date = '-'
+        sold_date = '-'
+        sold_price = 0
         likes = 0
+        bumps = 0
         comments = 0
         num_pictures = 0
         url = '-'  # If it is '-', then it is not listed
@@ -89,14 +138,14 @@ def my_form_post():
         except OperationalError:
             print(sys.exc_info()[1])
 
-        item = (itemName, post_date, sell_date, itemPrice, current_price,
-                costOfGoods, designer, size, condition,
-                description, likes, comments, num_pictures, url, 0)
+        item = (item_name, post_date, sold_date, post_price, current_price,
+                cost_of_goods, sold_price, description, designer, category, size, condition,
+                bumps, likes, comments, num_pictures, url, 0, 0, 3)
 
-        command = "insert into items (item_name, post_date, sold_date, " \
-                  "post_price, current_price, cost_of_goods, designer, " \
-                  "size, condition, description, num_likes, num_comments, " \
-                  "num_images, url, refunded) values {}".format(item)
+        command = "insert into items (item_name, post_date, sold_date," \
+                  "post_price, current_price, cost_of_goods, sold_price, description, designer, " \
+                  "category, size, condition, bumps, num_likes, num_comments, " \
+                  "num_images, url, refunded, rating, sale_to_delivery) values {}".format(item)
 
         c.execute(command)
         conn.commit()
@@ -109,4 +158,19 @@ def my_form_post():
 
 @app.route('/sales')
 def sales():
-    return render_template('sales.html')
+    try:
+        conn = sqlite3.connect('../data/sales_data.db')
+        c = conn.cursor()
+    except OperationalError:
+        print(sys.exc_info()[1])
+    c.execute('SELECT * FROM sales')
+    data = c.fetchall()
+    conn.close()
+    items = []
+    for item in data:
+        items.append(it.Sale(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9],
+                             item[10], item[11], item[12], item[13], item[14], item[15], item[16], item[17], item[18],
+                             item[19]))
+    # Populate the table and return as html
+    table = it.SalesTable(items, classes=['table'])
+    return render_template('sales.html', table=Markup(table.__html__()))
