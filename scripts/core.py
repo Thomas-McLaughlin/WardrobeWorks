@@ -156,31 +156,24 @@ def post_item():
             item_title, post_price, description, designer, condition, category, size))
 
         # Post the Item
-        # Fixme: Works up until here
         driver.get('https://www.grailed.com/sell')
         time.sleep(3)
-        search_item = driver.find_element_by_id('search-by-item-name')
-        search_item.send_keys(item_title)
+        title = driver.find_element_by_xpath("//*[@id=\"sellform\"]/div/div[2]/form/div[1]/div/div[2]/div[1]/input")
+        title.send_keys(item_title)
 
-        # This allows for you to create your own listing from scratch,
-        # using the search item name you created above
-        time.sleep(3)
-        start_from_scratch = driver.find_element_by_xpath("//*[contains(text(), 'Start from scratch')]")
-        start_from_scratch.click()
-
-        # This clicks the category box, which would trigger the dropdowns.
+        # This clicks the category box, which would trigger the dropdowns. - needs to be generalized
         time.sleep(6)
         category = driver.find_element_by_xpath(
             '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
         category.click()
 
-        # Finding the footwear button
+        # Set Category (accessories) - needs to be generalized
         time.sleep(2)
         footwear = driver.find_element_by_xpath(
             '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
         footwear.click()
 
-        # Finding the lowtop shoes button
+        # Set sub category (jewelry) - needs to be generalized
         time.sleep(2)
         lowtop_shoes = driver.find_element_by_xpath(
             '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
@@ -194,24 +187,24 @@ def post_item():
         not_sure = driver.find_element_by_class_name('autocomplete')
         not_sure.click()
 
+        # Fixme: Works up until here
         #  Set the size
         size = driver.find_element_by_name('size')
         size.click()
         time.sleep(2)
-        the_size = driver.find_element_by_xpath("//option[@value=" + size + "]")
+        the_size = driver.find_element_by_xpath("//option[@value={}]".format(size))
         the_size.click()
 
         #   Chooses the color. Elected N/A.
         time.sleep(2)
         color = driver.find_element_by_id('color-autocomplete')
-        color.send_keys('N/A')
+        color.send_keys('N/A') # N/A isn't a dropdown option, can you enter anything if you click off?
         time.sleep(2)
-
-        #   This is to click off the color, so your program can continue
+        #   This is to click off the color dropdown, so your program can continue
         clickoff = driver.find_element_by_id('sellform')
         clickoff.click()
 
-        #   Clicking condition new
+        #   Set Condition
         time.sleep(4)
         the_condition = driver.find_element_by_xpath("//option[@value='is_new']")
         the_condition.click()
@@ -264,4 +257,4 @@ def log_off():
     driver.close()
     exit(0)
 
-post_item()
+# post_item()
