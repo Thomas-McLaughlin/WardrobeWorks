@@ -1,8 +1,5 @@
 """
-Tom McLaughlin
 This file holds the logic for taking action on grailed.com:
-- Posting Items
-- Dropping Prices
 """
 from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
