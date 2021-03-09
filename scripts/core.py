@@ -63,10 +63,7 @@ def bump_all_items():
             traceback.print_exc()
             print("Initialization failed...")
 
-        # Fetch the number of items on the page and loop through all of them.
-        # Fixme: If the header bars are not closed, scroll to
-        # the bottom of the page
-
+        # Fixme: This needs to be changed to the full range of the bumpable items
         for i in range(1, 10):
             time.sleep(2)
             item = driver.find_element_by_xpath(
@@ -110,6 +107,7 @@ def clear_wardrobe():
             element.click()
             time.sleep(1)
 
+            # Fixme: This needs to be able to input a reason for deletion
             reason = driver.find_element_by_xpath("//select[@id=\"reason\"]/option[text()='Other'")
             reason.click()
             time.sleep(.2)
@@ -128,27 +126,12 @@ def clear_wardrobe():
 def post_item():
     """Post new items to grailed.com"""
 
-    # Fixme: This function is currently not working.
+    # Fixme: This function is currently not working. It also is the most work, and interacts directly with the dbs
     # Close driver to prevent memory leak for test
     driver.close()  
 
-    FOLDER_PATH = r'../Products/'
-    item_folders = os.listdir(FOLDER_PATH)
-
-    item_directories = []
-    for folder in item_folders:
-        if '.DS' in folder:
-            continue
-        else:
-            item_directories.append(os.listdir(FOLDER_PATH + folder + '/'))
-
-    # For each item folder:-
-
-    # Read in the information from config files
-    item_title = ''
-    item_desc = ''
-    item_price = ''
-    item_pics = []
+    # Read in the information from db
+    
 
     # Post the Item
     exit()  # Close the program at the end of my test
