@@ -77,7 +77,7 @@ def main():
     Driver for the pull selects script. Generates a dictionary holding the categories and their subcategories
     :return:
     """
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome('/Users/thomas.mclaughlin/Documents/GitHub/WardrobeWizard2/scripts/chromedriver')
     driver.maximize_window()
     driver.get("https://grailed.com/categories/all")
     time.sleep(3)
@@ -87,7 +87,7 @@ def main():
     # sub_categories = []
     # for cat in categories:
     #     url = "https://grailed.com/categories/" + str(cat).lower()
-    #     driver.get(url)
+    #     driver.get(url): 'chromedriver.exe' executable needs to be in PATH.
     #     time.sleep(6)
     #     subs = get_subs(driver, cat)
     #     sub_categories.append(subs)
