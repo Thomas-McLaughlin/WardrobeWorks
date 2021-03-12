@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red27\green29\blue31;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c14118\c15294\c16078;\cssrgb\c100000\c100000\c100000;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Troubleshooting:\
+\
+1) Your chromedriver executable version needs to be the same as the one that you have installed. This leads to the {\field{\*\fldinst{HYPERLINK "https://stackoverflow.com/questions/65194694/session-not-created-this-version-of-chromedriver-only-supports-chrome-version-8"}}{\fldrslt 
+\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 session not created: This version of ChromeDriver only supports Chrome version }}
+\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 xx 
+\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 error
+\fs26 .\
+\
+You can solve this issue by following the steps laid out here:\
+https://stackoverflow.com/questions/65194694/session-not-created-this-version-of-chromedriver-only-supports-chrome-version-8/65194918\
+\
+2) Chromedriver executable needs to be in path error:\
+\
+You may have your chromedriver in the same directory as the scripts for wardrobe wizard, sometimes that still doesn\'92t work super well and you need to pass the fully qualified path.\
+\
+3) Unverified developer error (Mac OS):\
+\
+You may find that there is an unexpected quit error and the chromedriver never opens up, this is likely because you haven\'92t enabled the necessary permissions for the chromedriver. You can solve this by following these instructions:\
+https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de/64019725}
