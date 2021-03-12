@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post">
-  <h2>New Item Form</h2>
+<form id="app" method="post">
+  <h2>Item Form</h2>
   <div class="form-group">
     <input type="text" class="form-control" name="itemName" placeholder="Item Name">
   </div>
   <div class="form-group">
-    <input type="number" class="form-control" name="itemPrice" placeholder="Item Price">
+    <input v-model="post_price" v-on:change="getProceeds" class="form-control" name="itemPrice" placeholder="Item Price">
+    <p>{% raw %}{{proceeds}}{% endraw %}</p>
   </div>
   <div class="form-group">
-    <input type="number" class="form-control" name="costOfGoods" placeholder="Cost of Item">
+    <input type="number"class="form-control" name="costOfGoods" placeholder="Cost Of Goods">
   </div>
   <div class="form-group">
     <input type="text" class="form-control" name="description" placeholder="Description">
@@ -63,4 +64,5 @@
   </br>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script src="{{ url_for('static', filename='getProceeds.js') }}"></script>
 {% endblock %}
