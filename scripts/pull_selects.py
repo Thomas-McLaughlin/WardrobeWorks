@@ -72,6 +72,7 @@ def get_designers(driver):
                 break
     return designers
 
+
 def main():
     """
     Driver for the pull selects script. Generates a dictionary holding the categories and their subcategories
@@ -82,28 +83,28 @@ def main():
     driver.get("https://grailed.com/categories/all")
     time.sleep(3)
 
-    # categories = get_selects(driver)
-    #
-    # sub_categories = []
-    # for cat in categories:
-    #     url = "https://grailed.com/categories/" + str(cat).lower()
-    #     driver.get(url): 'chromedriver.exe' executable needs to be in PATH.
-    #     time.sleep(6)
-    #     subs = get_subs(driver, cat)
-    #     sub_categories.append(subs)
-    #
-    # driver.close()
-    #
-    # selects = {}
-    # for i in range(len(categories)):
-    #     selects[categories[i]] = sub_categories[i]
-    #
-    # with open("configs/selects.json", "w") as outfile:
-    #     json.dump(selects, outfile)
+    categories = get_selects(driver)
+
+    sub_categories = []
+    for cat in categories:
+        url = "https://grailed.com/categories/" + str(cat).lower()
+        driver.get(url)
+        time.sleep(6)
+        subs = get_subs(driver, cat)
+        sub_categories.append(subs)
+
+    selects = {}
+    for i in range(len(categories)):
+        selects[categories[i]] = sub_categories[i]
+
+    with open("configs/selects.json", "w") as outfile:
+        json.dump(selects, outfile)
 
     designers = get_designers(driver)
     with open("configs/designers.txt", mode = 'w') as fh:
         [fh.write(designer + '\n') for designer in designers]
+
+    driver.close()
 
 
 main()
