@@ -5,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 import time
 import json
-
+import os
 
 def get_selects(driver):
     """
@@ -78,7 +78,8 @@ def main():
     Driver for the pull selects script. Generates a dictionary holding the categories and their subcategories
     :return:
     """
-    driver = webdriver.Chrome('/Users/thomas.mclaughlin/Documents/GitHub/WardrobeWizard2/scripts/chromedriver')
+    driver_directory = os.path.abspath(os.getcwd())
+    driver = webdriver.Chrome(driver_directory + '/chromedriver')
     driver.maximize_window()
     driver.get("https://grailed.com/categories/all")
     time.sleep(3)
