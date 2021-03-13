@@ -4,9 +4,8 @@ import sys
 import os
 from sqlite3 import OperationalError
 from werkzeug.exceptions import BadRequest
-
-sys.path.insert(0, os.getcwd())
-import ItemTable as it
+import json
+from json2html import *
 
 app = Flask(__name__)
 
@@ -16,19 +15,15 @@ def index():
     """Renders the index page template."""
     try:
         conn = sqlite3.connect('../data/item_data.db')
+        conn.row_factory = sqlite3.Row
         c = conn.cursor()
     except OperationalError:
         print(sys.exc_info()[1])
     c.execute('SELECT * FROM items')
-    data = c.fetchall()
+    rows = c.fetchall()
+    data = json.dumps([dict(ix) for ix in rows])  # CREATE JSON
     conn.close()
-    items = []
-    for item in data:
-        items.append(it.Item(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9],
-                             item[10], item[11], item[12], item[13], item[14], item[15]))
-    # Populate the table and return as html
-    table = it.ItemTable(items, classes=['table'])
-    return render_template('manage.html', table=Markup(table.__html__()))
+    return render_template('manage.html', table=Markup(json2html.convert(json=data, table_attributes="class=\"table table-sm\"")))
 
 
 @app.route('/post')
@@ -139,14 +134,13 @@ def my_form_post():
             print(sys.exc_info()[1])
 
         item = (item_name, post_date, sold_date, post_price, current_price,
-                cost_of_goods, sold_price, description, designer, category, size, condition,
-                bumps, likes, comments, num_pictures, url, 0, 0, 3)
+                cost_of_goods, description, designer, category, size, condition,
+                bumps, likes, comments, num_pictures, url)
 
         command = "insert into items (item_name, post_date, sold_date," \
-                  "post_price, current_price, cost_of_goods, sold_price, description, designer, " \
-                  "category, size, condition, bumps, num_likes, num_comments, " \
-                  "num_images, url, refunded, rating, sale_to_delivery) values {}".format(item)
-
+                  "post_price, current_price, cost_of_goods, description, designer, " \
+                  "category, size, condition, num_bumps, num_likes, num_comments, " \
+                  "num_images, url) values {}".format(item)
         c.execute(command)
         conn.commit()
         conn.close()
@@ -160,17 +154,12 @@ def my_form_post():
 def sales():
     try:
         conn = sqlite3.connect('../data/sales_data.db')
+        conn.row_factory = sqlite3.Row
         c = conn.cursor()
     except OperationalError:
         print(sys.exc_info()[1])
     c.execute('SELECT * FROM sales')
-    data = c.fetchall()
+    rows = c.fetchall()
+    data = json.dumps([dict(ix) for ix in rows])  # CREATE JSON
     conn.close()
-    items = []
-    for item in data:
-        items.append(it.Sale(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9],
-                             item[10], item[11], item[12], item[13], item[14], item[15], item[16], item[17], item[18],
-                             item[19]))
-    # Populate the table and return as html
-    table = it.SalesTable(items, classes=['table'])
-    return render_template('sales.html', table=Markup(table.__html__()))
+    return render_template('sales.html', table=Markup(json2html.convert(json=data, table_attributes="class=\"table table-responsive-sm\"")))
