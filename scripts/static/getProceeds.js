@@ -1,7 +1,7 @@
 var app = new Vue({
   el: '#app',
   data: {
-    post_price: 'Post Price',
+    post_price: '',
     proceeds: ''
   },
   methods: {
