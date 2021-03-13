@@ -6,7 +6,7 @@ from selenium import webdriver
 import time
 import traceback
 from selenium.webdriver import ActionChains
-import os
+import sqlite3
 import tkinter.messagebox as mb
 from selenium.webdriver.chrome.options import Options
 
@@ -125,105 +125,113 @@ def clear_wardrobe():
 
 def post_item():
     """Post new items to grailed.com"""
+    # Fixme: This function is currently not working. It also is the most work.
 
-    # Fixme: This function is currently not working. It also is the most work, and interacts directly with the dbs
-    # Close driver to prevent memory leak for test
-    driver.close()  
+    # Open a connection to the database
+    conn = sqlite3.connect('../data/item_data.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM items")
+    returns = c.fetchall()
+    conn.close()
 
-    # Read in the information from db
-    
+    # Get the items that need posting
+    to_post = []
+    for retval in returns:
+        if retval[1] == '':
+            to_post.append(retval)
+            print(retval)
 
-    # Post the Item
-    exit()  # Close the program at the end of my test
+    # Fixme: Post_date and url need to be updated in the db at the end when this loop runs
+    for item in to_post:
+        item_title = item[0]
+        post_price = item[3]
+        description = item[6]
+        designer = item[7]
+        category = item[8]
+        size = item[9]
+        condition = item[10]
 
-    # RUN THIS - DEBUG IT - AND WRAP IT IN TRY EXCEPT STATEMENTS
-    # Set dummy title
-    driver.get('https://www.grailed.com/sell')
-    time.sleep(3)
-    search_item = driver.find_element_by_id('search-by-item-name')
-    search_item.send_keys(item_title)
+        # Sanity Check
+        print("title: {}\n price: {}\n descr: {}\n designer: {}\n condition: {}\n category: {}\n size: {}\n".format(
+            item_title, post_price, description, designer, condition, category, size))
 
-    # This allows for you to create your own listing from scratch, 
-    # using the search item name you created above
-    time.sleep(3)
-    start_from_scratch = driver.find_element_by_xpath(
-        "//*[contains(text(), 'Start from scratch')]")
-    start_from_scratch.click()
+        # Post the Item
+        driver.get('https://www.grailed.com/sell')
+        time.sleep(3)
+        title = driver.find_element_by_xpath("//*[@id=\"sellform\"]/div/div[2]/form/div[1]/div/div[2]/div[1]/input")
+        title.send_keys(item_title)
 
-    # This clicks the categoy box, which would trigger the dropdowns.
-    time.sleep(6)
-    category = driver.find_element_by_xpath(
-        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
-    category.click()
+        # This clicks the category box, which would trigger the dropdowns. - needs to be generalized
+        time.sleep(6)
+        category = driver.find_element_by_xpath(
+            '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/input')
+        category.click()
 
-    # Finding the footwear button
-    time.sleep(2)
-    footwear = driver.find_element_by_xpath(
-        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
-    footwear.click()
+        # Set Category (accessories) - needs to be generalized
+        time.sleep(2)
+        footwear = driver.find_element_by_xpath(
+            '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[1]/h2[4]')
+        footwear.click()
 
-    # Finding the lowtop shoes button
-    time.sleep(2)
-    lowtop_shoes = driver.find_element_by_xpath(
-        '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
-    lowtop_shoes.click()
+        # Set sub category (jewelry) - needs to be generalized
+        time.sleep(2)
+        lowtop_shoes = driver.find_element_by_xpath(
+            '//*[@id="sellform"]/div/div[2]/form/div[1]/div/div[1]/div[1]/div/div/div/div[2]/h2[5]')
+        lowtop_shoes.click()
 
-    # Configured the designer to say not sure because of all the options it offers. Can be easily changed
-    time.sleep(2)
-    designer = driver.find_element_by_id('designer-autocomplete')
-    designer.send_keys('Not sure')
+        # Set the designer
+        time.sleep(2)
+        designer = driver.find_element_by_id('designer-autocomplete')
+        designer.send_keys('Not sure')
+        time.sleep(6)
+        not_sure = driver.find_element_by_class_name('autocomplete')
+        not_sure.click()
 
-    #   Clicks the auto complete for the text typed above. This is iffy, as sometimes a random unrelated name comes up even
-    #   when you click not sure.
-    time.sleep(6)
-    not_sure = driver.find_element_by_class_name('autocomplete')
-    not_sure.click()
+        # Fixme: Works up until here
+        #  Set the size
+        size = driver.find_element_by_name('size')
+        size.click()
+        time.sleep(2)
+        the_size = driver.find_element_by_xpath("//option[@value={}]".format(size))
+        the_size.click()
 
-    #   Finds the size button
-    size = driver.find_element_by_name('size')
-    size.click()
+        #   Chooses the color. Elected N/A.
+        time.sleep(2)
+        color = driver.find_element_by_id('color-autocomplete')
+        color.send_keys('N/A') # N/A isn't a dropdown option, can you enter anything if you click off?
+        time.sleep(2)
+        #   This is to click off the color dropdown, so your program can continue
+        clickoff = driver.find_element_by_id('sellform')
+        clickoff.click()
 
-    #   Adds the size. To change, just replace the 9 with whatever number you'd like.
-    time.sleep(2)
-    the_size = driver.find_element_by_xpath("//option[@value='9']")
-    the_size.click()
+        #   Set Condition
+        time.sleep(4)
+        the_condition = driver.find_element_by_xpath("//option[@value='is_new']")
+        the_condition.click()
 
-    #   Chooses the color. Elected N/A.
-    time.sleep(2)
-    color = driver.find_element_by_id('color-autocomplete')
-    color.send_keys('N/A')
-    time.sleep(2)
+        #   Sending description from text file in description folder
+        time.sleep(2)
+        description = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[5]/textarea')
+        description.send_keys(description)
 
-    #   This is to click off the color, so your program can continue
-    clickoff = driver.find_element_by_id('sellform')
-    clickoff.click()
+        #   Sending price from text file in price folder
+        time.sleep(2)
+        input_price = driver.find_element_by_name('price')
+        input_price.send_keys(post_price)
+        time.sleep(2)
 
-    #   Clicking condition new
-    time.sleep(4)
-    the_condition = driver.find_element_by_xpath("//option[@value='is_new']")
-    the_condition.click()
+        #   Turning the smart pricing off
+        driver.find_elements_by_class_name('--slider')[1].click()
 
-    #   Sending description from text file in description folder
-    time.sleep(2)
-    description = driver.find_element_by_xpath('//*[@id="sellform"]/div/div[2]/form/div[5]/textarea')
-    description.send_keys(item_desc)
-
-    #   Sending price from text file in price folder
-    time.sleep(2)
-    input_price = driver.find_element_by_name('price')
-    input_price.send_keys(item_price)
-    time.sleep(2)
-
-    #   Turning the smart pricing off
-    driver.find_elements_by_class_name('--slider')[1].click()
-
-    # Photo upload block
-    upload_photos = driver.find_element_by_id('photo_input_0')
-    images = ''
-    for pic in item_pics:
-        images += pic + '\n'
-    images.rstrip()
-    upload_photos.send_keys(images)
+        # Fixme: The database needs to take up to 6 images for upload when the template is made, they must be able
+        #  to upload here
+        # # Photo upload block
+        # upload_photos = driver.find_element_by_id('photo_input_0')
+        # images = ''
+        # for pic in item_pics:
+        #     images += pic + '\n'
+        # images.rstrip()
+        # upload_photos.send_keys(images)
 
 
 def log_in():
@@ -248,3 +256,5 @@ def log_off():
     print("Exiting...")
     driver.close()
     exit(0)
+
+# post_item()

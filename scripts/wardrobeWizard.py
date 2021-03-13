@@ -7,7 +7,7 @@ def wardrobeWizard():
     """
     This is the driver of wardrobewizard, from here all the commands are invoked as functions that run alongside
     the created Tkinter window. When the User logs in, the webdriver opens the grailed site, where the user manually
-    logs in, bypasses captcha, and enters 'y' into the terminal. At that point the commands below can be executed
+    logs in, bypasses captcha, confirms the alert box. At that point the commands below can be executed
     by clicking their button in the Tkinter window.
     """
 

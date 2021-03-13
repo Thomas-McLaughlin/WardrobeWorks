@@ -53,11 +53,11 @@ except OperationalError:
 
 # Test the database
 print("Testing Insert...")
-test_items = ["('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')",
-              "('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')"]
+test_items = ["('remove before flight', '', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')",
+              "('remove before flight', '', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')"]
 
-test_item_check = [('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com'),
-                   ('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')]
+test_item_check = [('remove before flight', '', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com'),
+                   ('remove before flight', '', '', 20, 20, 5, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com')]
 
 for item in test_items:
     c.execute("INSERT INTO items VALUES {}".format(item))
@@ -134,11 +134,11 @@ except OperationalError:
 
 # Test the database
 print("Testing Insert...")
-test_items = ["('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)",
-              "('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)"]
+test_items = ["('remove before flight', 'Jul-9-1995', 'Jul-10-1995', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)",
+              "('remove before flight', 'Jul-9-1995', 'Jul-10-1995', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)"]
 
-test_item_check = [('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3),
-                   ('remove before flight', 'Jul-9-1995', '', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)]
+test_item_check = [('remove before flight', 'Jul-9-1995', 'Jul-10-1995', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3),
+                   ('remove before flight', 'Jul-9-1995', 'Jul-10-1995', 20, 20, 5, 20, 'great tag!', 'None', 0, 0, 'New', 0, 0, 0, 3, 'someurl.com', 0, 5, 3)]
 
 
 for item in test_items:
