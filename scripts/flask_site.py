@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, Markup
 import sqlite3
-import sys
-import os
 from sqlite3 import OperationalError
 from werkzeug.exceptions import BadRequest
 import json
@@ -120,7 +118,6 @@ def my_form_post():
         # Set placeholders for values under manage view's responsibility
         post_date = '-'
         sold_date = '-'
-        sold_price = 0
         likes = 0
         bumps = 0
         comments = 0
