@@ -105,7 +105,7 @@ def main():
     with open("configs/designers.txt", mode = 'w') as fh:
         [fh.write(designer + '\n') for designer in designers]
 
-    driver.close()
+    driver.quit()
 
 
 main()
