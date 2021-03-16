@@ -9,13 +9,14 @@ from selenium.webdriver import ActionChains
 import sqlite3
 import tkinter.messagebox as mb
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 option = Options()
 option.add_argument("--disable-notifications")
 option.add_argument("start-maximized")
 option.add_argument("--disable-extensions")
 option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 1 })
-driver = webdriver.Chrome(options=option)
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=option)
 driver.maximize_window()
 
 
