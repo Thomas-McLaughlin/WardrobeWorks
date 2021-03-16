@@ -8,6 +8,9 @@ This program aims to solve the following issues.</br>
     -Deleting postings/wiping inventories for a fresh start</br>
     -Basic post date, likes, sales price, sales over time, revenue over time metrics that are helpful to sellers</br>
 
+Use Case Diagram:
+![alt text](Use%20Case.png)
+
 Requirements:</br>
     Install the wardrobewizard package on your computer</br>
     You need python 2.7 installed to run the program</br>
