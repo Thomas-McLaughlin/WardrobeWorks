@@ -255,7 +255,7 @@ def log_in():
 def log_off():
     """Close down the driver"""
     print("Exiting...")
-    driver.close()
+    driver.quit()
     exit(0)
 
 # post_item()

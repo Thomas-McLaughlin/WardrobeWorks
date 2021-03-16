@@ -35,14 +35,3 @@ Currently:</br>
     Then open a browser window to http://127.0.0.1:5000/ to see the UI and interact </br>
     
 This program requires the user to supply all product images, descriptions, pricing, and configurations for maintenance tasks.</br>
-
-<h1>For New Contributors</h1></br>
-The focus of the development is around two components: core.py and the flask app that serves as the interface.</br>
-The remaining tasks are to get the following working:</br>
-1) post_items: This should read from the item_data.db and take the items that don't have a post date, and posts them to grailed - this is a little complicated and requres familiarity with the site.</br></br>
-2) sales.html: This is where all the sales data from sales_data.db can be viewed and analyzed. It will consist of a table view, and a graph view.</br>
--The table view should just list the sales_data.db information as a table in an orderly fashion.</br>
--The graph view should show sales over time.</br></br>
-3) manage.html: This is where the user can view the information in their item_data.db - it should have a table laying out their templates and values of each field in the template, with a radio button to the far right to post the item</br></br>
-
-As you go through the code and run into issues, it may be helpful to other contributors if you update the troubleshooting wiki file with what helped you get past those issues. This will go a long way to creating a documentation page to help everyone understand the code base.
