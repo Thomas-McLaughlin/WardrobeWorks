@@ -8,16 +8,12 @@ This program aims to solve the following issues.<br>
     -Deleting postings/wiping inventories for a fresh start<br>
     -Basic post date, likes, sales price, sales over time, revenue over time metrics that are helpful to sellers<br>
 
-<h2>Use Case Diagram:</h2>
-![alt text](Use%20Case.png)
 
-<h2>Basic Views:</h2>
-<h3>Manage/Listings:</h3>
-![alt text](manage view.png)
-<h3>Manage Templates:</h3>
-![alt text](Template view.png)
-<h3>Sales</h3>
-![alt text](Sales view.png)
+![Use Case](Use%20Case.png)
+<br>Views:
+![Manage View](manage%20view.png)
+![Template View](Template%20view.png)
+![Sales View](Sales%20view.png)
 
 <br><br>
 <h3>Requirements:</h3>
