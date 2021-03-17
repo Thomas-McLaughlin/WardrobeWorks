@@ -11,8 +11,11 @@ This program aims to solve the following issues.<br>
 
 ![Use Case](Use%20Case.png)
 <br>Views:
+<br>Manage:
 ![Manage View](manage%20view.png)
+<br>Template:
 ![Template View](Template%20view.png)
+<br>Sales:
 ![Sales View](Sales%20view.png)
 
 <br><br>
